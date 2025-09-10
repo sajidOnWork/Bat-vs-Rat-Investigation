@@ -91,3 +91,15 @@ if 'bat_landing_to_food' in d1.columns:
     plt.tight_layout()
     plt.savefig(os.path.join(OUT_DIR, 'hist_bat_landing_to_food.png'))
     plt.close()
+
+# 2) Boxplot by risk
+if 'bat_landing_to_food' in d1.columns and 'risk' in d1.columns:
+    plt.figure()
+    data0 = d1.loc[d1['risk'] == 0, 'bat_landing_to_food'].dropna()
+    data1 = d1.loc[d1['risk'] == 1, 'bat_landing_to_food'].dropna()
+    plt.boxplot([data0, data1], labels=['risk=0', 'risk=1'])
+    plt.title('bat_landing_to_food by risk group')
+    plt.ylabel('Seconds until approach food')
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT_DIR, 'box_bat_landing_by_risk.png'))
+    plt.close()
