@@ -103,3 +103,15 @@ if 'bat_landing_to_food' in d1.columns and 'risk' in d1.columns:
     plt.tight_layout()
     plt.savefig(os.path.join(OUT_DIR, 'box_bat_landing_by_risk.png'))
     plt.close()
+
+
+# 3) Scatter from dataset2: rat arrivals vs bat landings
+if 'rat_arrival_number' in d2.columns and 'bat_landing_number' in d2.columns:
+    plt.figure()
+    plt.scatter(d2['rat_arrival_number'], d2['bat_landing_number'])
+    plt.title('Rat arrivals vs Bat landings (30-min periods)')
+    plt.xlabel('rat_arrival_number (per 30 min)')
+    plt.ylabel('bat_landing_number (per 30 min)')
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT_DIR, 'scatter_rats_vs_bats.png'))
+    plt.close()
