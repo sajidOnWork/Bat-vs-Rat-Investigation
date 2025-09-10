@@ -157,3 +157,28 @@ if 'bat_landing_to_food' in model_df.columns and 'risk' in model_df.columns:
         }
         with open(os.path.join(OUT_DIR, 'mannwhitneyu_result.txt'), 'w') as f:
             f.write(str(mw_result))
+
+# Logistic regression predicting 'risk'
+logit_summary = None
+if 'risk' in model_df.columns:
+    predictors = []
+    if 'seconds_after_rat_arrival' in model_df.columns:
+        predictors.append('seconds_after_rat_arrival')
+    if 'hours_after_sunset' in model_df.columns:
+        predictors.append('hours_after_sunset')
+    if 'season' in model_df.columns:
+        model_df['season_cat'] = model_df['season'].astype('category')
+        predictors.append('C(season_cat)')
+
+
+    if len(predictors) > 0:
+        formula = 'risk ~ ' + ' + '.join(predictors)
+        try:
+            logit_data = model_df.dropna(subset=['risk'] + [c for c in ['seconds_after_rat_arrival', 'hours_after_sunset'] if c in model_df.columns])
+            logit_model = smf.logit(formula=formula, data=logit_data).fit(disp=False)
+            logit_summary = logit_model.summary().as_text()
+            with open(os.path.join(OUT_DIR, 'logistic_regression_summary.txt'), 'w') as f:
+                f.write(logit_summary)
+        except Exception as e:
+            with open(os.path.join(OUT_DIR, 'logistic_regression_error.txt'), 'w') as f:
+                f.write(str(e))
