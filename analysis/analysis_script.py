@@ -28,12 +28,22 @@ ZIP_OUT = os.path.join(BASE_DIR, 'assessment2_submission_bundle.zip')
 # Helper functions
 # ------------------
 
-
 def try_parse_datetime(series):
     try:
         return pd.to_datetime(series, infer_datetime_format=True, errors='coerce')
     except Exception:
         return pd.to_datetime(series, errors='coerce')
+    
+def cliffs_delta(x, y):
+    # returns Cliff's delta (x > y positive)
+    nx = len(x); ny = len(y)
+    more = 0
+    less = 0
+    for xi in x:
+        more += np.sum(y < xi)
+        less += np.sum(y > xi)
+    delta = (more - less) / (nx * ny)
+    return delta
 
 # ------------------
 # Load data
@@ -115,3 +125,35 @@ if 'rat_arrival_number' in d2.columns and 'bat_landing_number' in d2.columns:
     plt.tight_layout()
     plt.savefig(os.path.join(OUT_DIR, 'scatter_rats_vs_bats.png'))
     plt.close()
+
+
+# ------------------
+# Inferential analyses
+# ------------------
+# Prepare df for modelling: keep rows with required vars
+model_df = d1.copy()
+
+# Mann-Whitney U (compare bat_landing_to_food by risk label)
+mw_result = None
+if 'bat_landing_to_food' in model_df.columns and 'risk' in model_df.columns:
+    grp0 = model_df.loc[model_df['risk'] == 0, 'bat_landing_to_food'].dropna()
+    grp1 = model_df.loc[model_df['risk'] == 1, 'bat_landing_to_food'].dropna()
+    if len(grp0) > 0 and len(grp1) > 0:
+        u_stat, p_val = mannwhitneyu(grp0, grp1, alternative='two-sided')
+        n0, n1 = len(grp0), len(grp1)
+        mu_U = n0 * n1 / 2.0
+        sigma_U = np.sqrt(n0 * n1 * (n0 + n1 + 1) / 12.0)
+        z = (u_stat - mu_U) / sigma_U
+        r = z / np.sqrt(n0 + n1)
+        delta = cliffs_delta(grp1.values, grp0.values)
+        mw_result = {
+            'u_stat': int(u_stat),
+            'pvalue': float(p_val),
+            'z': float(z),
+            'r': float(r),
+            'n0': n0,
+            'n1': n1,
+            'cliffs_delta': float(delta)
+        }
+        with open(os.path.join(OUT_DIR, 'mannwhitneyu_result.txt'), 'w') as f:
+            f.write(str(mw_result))
