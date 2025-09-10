@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
 import statsmodels.api as sm
 from scipy.stats import mannwhitneyu
-import zipfile
 
 # ------------------
 # Paths & output dir
