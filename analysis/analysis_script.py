@@ -211,3 +211,13 @@ if 'bat_landing_to_food' in model_df.columns:
         except Exception as e:
             with open(os.path.join(OUT_DIR, 'linear_regression_error.txt'), 'w') as f:
                 f.write(str(e))
+
+# Save a human-readable detailed summary
+with open(os.path.join(OUT_DIR, 'detailed_summary.txt'), 'w') as f:
+    f.write('Dataset sizes:\n')
+    f.write(f"dataset1: {len(d1)} rows\n")
+    f.write(f"dataset2: {len(d2)} rows\n\n")
+    f.write('Mann-Whitney U result:\n')
+    f.write(str(mw_result) + '\n\n')
+    f.write('Logistic regression summary (if present) saved to logistic_regression_summary.txt\n')
+    f.write('Linear regression summary (if present) saved to linear_regression_summary.txt\n')

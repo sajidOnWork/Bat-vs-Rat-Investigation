@@ -1,0 +1,9 @@
+Dataset sizes:
+dataset1: 907 rows
+dataset2: 2123 rows
+
+Mann-Whitney U result:
+{'u_stat': 68002, 'pvalue': 8.431265724019709e-19, 'z': -8.826897496262157, 'r': -0.29309232077968383, 'n0': 458, 'n1': 449, 'cliffs_delta': 0.3386370488518882}
+
+Logistic regression summary (if present) saved to logistic_regression_summary.txt
+Linear regression summary (if present) saved to linear_regression_summary.txt
