@@ -77,3 +77,17 @@ if 'seconds_after_rat_arrival' in d1.columns:
 # Save cleaned head files for reproducibility
 d1.head(200).to_csv(os.path.join(OUT_DIR, 'dataset1_head.csv'), index=False)
 d2.head(200).to_csv(os.path.join(OUT_DIR, 'dataset2_head.csv'), index=False)
+
+# ------------------
+# Exploratory plots
+# ------------------
+# 1) Histogram of bat_landing_to_food
+if 'bat_landing_to_food' in d1.columns:
+    plt.figure()
+    plt.hist(d1['bat_landing_to_food'].dropna(), bins=30)
+    plt.title('Distribution of bat_landing_to_food (seconds)')
+    plt.xlabel('Seconds until approach food')
+    plt.ylabel('Count')
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT_DIR, 'hist_bat_landing_to_food.png'))
+    plt.close()
