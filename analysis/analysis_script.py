@@ -126,6 +126,12 @@ if 'rat_arrival_number' in d2.columns and 'bat_landing_number' in d2.columns:
     plt.savefig(os.path.join(OUT_DIR, 'scatter_rats_vs_bats.png'))
     plt.close()
 
+# Save basic summaries
+try:
+    d1.describe(include='all').to_csv(os.path.join(OUT_DIR, 'summary_dataset1.csv'))
+    d2.describe(include='all').to_csv(os.path.join(OUT_DIR, 'summary_dataset2.csv'))
+except Exception:
+    pass
 
 # ------------------
 # Inferential analyses
