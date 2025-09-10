@@ -1,5 +1,5 @@
-# analysis_script.py
 """
+pip install pandas numpy matplotlib statsmodels scipy (required dependencies)
 Saves outputs (plots and summaries) to ../outputs/ when run from analysis/ folder.
 """
 import os
