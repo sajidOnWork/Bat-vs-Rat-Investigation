@@ -187,3 +187,27 @@ if 'risk' in model_df.columns:
         except Exception as e:
             with open(os.path.join(OUT_DIR, 'logistic_regression_error.txt'), 'w') as f:
                 f.write(str(e))
+
+# Linear regression predicting 'bat_landing_to_food'
+lin_summary = None
+if 'bat_landing_to_food' in model_df.columns:
+    predictors = []
+    if 'seconds_after_rat_arrival' in model_df.columns:
+        predictors.append('seconds_after_rat_arrival')
+    if 'hours_after_sunset' in model_df.columns:
+        predictors.append('hours_after_sunset')
+    if 'season' in model_df.columns:
+        predictors.append('C(season)')
+
+
+    if len(predictors) > 0:
+        formula = 'bat_landing_to_food ~ ' + ' + '.join(predictors)
+        try:
+            lin_data = model_df.dropna(subset=['bat_landing_to_food'] + [c for c in ['seconds_after_rat_arrival','hours_after_sunset'] if c in model_df.columns])
+            lin_model = smf.ols(formula=formula, data=lin_data).fit()
+            lin_summary = lin_model.summary().as_text()
+            with open(os.path.join(OUT_DIR, 'linear_regression_summary.txt'), 'w') as f:
+                f.write(lin_summary)
+        except Exception as e:
+            with open(os.path.join(OUT_DIR, 'linear_regression_error.txt'), 'w') as f:
+                f.write(str(e))
