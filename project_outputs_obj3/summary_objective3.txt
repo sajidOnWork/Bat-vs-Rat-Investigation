@@ -1,0 +1,20 @@
+
+HIT140 Objective 2 – Investigation A & B Results
+-------------------------------------------------
+Total bat landings: 907
+Seasons found: 2
+
+Investigation A:
+  Mann-Whitney U test (approach time vs rat presence):
+     U = nan, p = nan
+  Logistic regression summary saved → logitA_summary.txt
+
+Investigation B:
+  Kruskal-Wallis test (approach time across seasons):
+     H = 14.28, p = 0.0002
+  Logistic regression with season saved → logitB_summary.txt
+
+Seasonal risk rates:
+ season  count  risk_rate
+      0    151   0.562914
+      1    756   0.481481

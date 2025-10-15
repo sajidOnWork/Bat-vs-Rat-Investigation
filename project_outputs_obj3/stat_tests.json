@@ -1,0 +1,14 @@
+{
+  "Investigation_A": {
+    "test": "Mann-Whitney U",
+    "U": NaN,
+    "p": NaN
+  },
+  "Investigation_B": {
+    "landing_to_food_KW": {
+      "test": "Kruskal-Wallis",
+      "H": 14.279108797527087,
+      "p": 0.00015760439749646173
+    }
+  }
+}
